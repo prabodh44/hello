@@ -28,6 +28,10 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
+
+        //this event has been added into the onDeviceReady function to ensure that Cordova is loaded before camera is started
+
+        document.getElementById("camerTakePicture").addEventListener('click', camerTakePicture);
     },
 
     // Update DOM on a Received Event
@@ -44,4 +48,21 @@ var app = {
 };
 
 app.initialize();
+
+function camerTakePicture() {
+    navigator.camera.getPicture(onSuccess, onFail, {
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+
+    function onSuccess(imageData) {
+        var image = document.getElementById("myImage");
+        image.src = "data:image/jpeg;base64," + imageData;
+        alert("Image src is " + image.src);
+    }
+
+    function onFail(message) {
+        alert("Falied because " + message);
+    }
+}
 

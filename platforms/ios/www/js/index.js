@@ -28,6 +28,10 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
+
+        //this event has been added into the onDeviceReady function to ensure that Cordova is loaded before camera is started
+
+        document.getElementById("camerTakePicture").addEventListener('click', camerTakePicture);
     },
 
     // Update DOM on a Received Event
@@ -45,43 +49,20 @@ var app = {
 
 app.initialize();
 
-document.getElementById("setLocalStorage").addEventListener('click',setLocalStorage);
-document.getElementById("showLocalStorage").addEventListener('click',showLocalStorage);
-document.getElementById("removeProjectFromLocalStorage").addEventListener 
-   ('click', removeProjectFromLocalStorage); 
-document.getElementById("getLocalStorageByKey").addEventListener 
-   ('click', getLocalStorageByKey);  
+function camerTakePicture() {
+    navigator.camera.getPicture(onSuccess, onFail, {
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
 
-document.addEventListener('volumeupbutton', callBackFunction, false);
-document.addEventListener('backbutton', onBackButtonPressed, false);
+    function onSuccess(imageData) {
+        var image = document.getElementById("myImage");
+        image.src = "data:image/jpeg;base64," + imageData;
+        alert("Image src is " + image.src);
+    }
 
-var localStorage = window.localStorage; 
-
-function onBackButtonPressed(e) {
-    e.preventDefault();
-    alert('backbutton has been pressed');
-}
-
-function callBackFunction() {
-    alert('Volume up has been pressed');
-}
-function setLocalStorage() {
-    localStorage.setItem("Name", "John");
-    localStorage.setItem("Job", "Developer");
-    localStorage.setItem("Project", "Cordova Project");
-}    
-
-function showLocalStorage() {
-    console.log(localStorage.getItem("Name"));
-    console.log(localStorage.getItem("Job"));
-    console.log(localStorage.getItem("Project"));
-}
-
-function removeProjectFromLocalStorage() {
-    localStorage.removeItem("Project");
-}
-
-function getLocalStorageByKey() {
-    alert("Inside the getLocalStorageByKey function");
+    function onFail(message) {
+        alert("Falied because " + message);
+    }
 }
 
