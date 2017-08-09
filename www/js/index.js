@@ -51,8 +51,20 @@ document.getElementById("removeProjectFromLocalStorage").addEventListener
    ('click', removeProjectFromLocalStorage); 
 document.getElementById("getLocalStorageByKey").addEventListener 
    ('click', getLocalStorageByKey);  
+
+document.addEventListener('volumeupbutton', callBackFunction, false);
+document.addEventListener('backbutton', onBackButtonPressed, false);
+
 var localStorage = window.localStorage; 
 
+function onBackButtonPressed(e) {
+    e.preventDefault();
+    alert('backbutton has been pressed');
+}
+
+function callBackFunction() {
+    alert('Volume up has been pressed');
+}
 function setLocalStorage() {
     localStorage.setItem("Name", "John");
     localStorage.setItem("Job", "Developer");
@@ -72,3 +84,4 @@ function removeProjectFromLocalStorage() {
 function getLocalStorageByKey() {
     alert("Inside the getLocalStorageByKey function");
 }
+
