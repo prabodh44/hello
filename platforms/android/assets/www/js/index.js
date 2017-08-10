@@ -31,7 +31,8 @@ var app = {
 
         //this event has been added into the onDeviceReady function to ensure that Cordova is loaded before camera is started
 
-        document.getElementById("camerTakePicture").addEventListener('click', camerTakePicture);
+        document.getElementById("cameraTakePicture").addEventListener('click', camerTakePicture);
+        alert('the device is ready');
     },
 
     // Update DOM on a Received Event
@@ -55,7 +56,9 @@ function camerTakePicture() {
         destinationType: Camera.DestinationType.DATA_URL
     });
 
+
     function onSuccess(imageData) {
+        alert('Inside onSuccess function');
         var image = document.getElementById("myImage");
         image.src = "data:image/jpeg;base64," + imageData;
         alert("Image src is " + image.src);
@@ -64,5 +67,5 @@ function camerTakePicture() {
     function onFail(message) {
         alert("Falied because " + message);
     }
-}
+ }
 
